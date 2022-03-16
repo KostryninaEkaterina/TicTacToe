@@ -6,18 +6,17 @@ m = int(input('Длина линии: '))
 def check_win(mas, sign):
     count = []
     for row in range(n):
-       for col in range(n):
-           if mas[row][col] == sign:
-               count += [(row,col)]
-               for di in range(-1, 2):
-                   for dj in range(-1, 2):
-                       row = row + di
-                       col = col + dj
-                       if 0 <= row  < n and 0 <= col < n and mas[row][col] == sign:
-                           count += [(row,col)]
-    count = set(count)
-    if len(count) == m:
-        return sign
+        for col in range(n):
+            if mas[row][col] == sign:
+                count += [(row, col)]
+                for di in range(-1, 2):
+                    for dj in range(-1, 2):
+                        row = row + di if 0 <= row + di < n else row
+                        col = col + dj if 0 <= col + di < n else col
+                        if mas[row][col] == sign:
+                            count += [(row, col)]
+                        if len(set(count)) == m:
+                            return sign
     return False
 
 
