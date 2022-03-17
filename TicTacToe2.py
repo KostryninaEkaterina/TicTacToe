@@ -4,20 +4,38 @@ import sys
 n = int(input('Размер поля: '))
 m = int(input('Длина линии: '))
 def check_win(mas, sign):
-    count = []
+   c_mas = []
+    c = 0
     for row in range(n):
         for col in range(n):
             if mas[row][col] == sign:
-                count += [(row, col)]
-                for di in range(-1, 2):
-                    for dj in range(-1, 2):
-                        row = row + di if 0 <= row + di < n else row
-                        col = col + dj if 0 <= col + di < n else col
-                        if mas[row][col] == sign:
-                            count += [(row, col)]
-                        if len(set(count)) == m:
-                            return sign
+                c_mas += [[row, col]]
+    for j in range(len(c_mas)):
+        for i in range(len(c_mas)):
+            if c_mas[i][0] == j:
+                c += 1
+                if c == m:
+                    return sign
+        c = 0
+    for j in range(len(c_mas)):
+        for i in range(len(c_mas)):
+            if c_mas[i][1] == j:
+                c += 1
+                if c == m:
+                    return sign
+        c = 0
+    c_mas.sort()
+    for i in range(len(c_mas)):
+         c_mas[i][0] += 1 + len(c_mas) - i
+    for i in range(len(c_mas)):
+        if c_mas[i][0] == c_mas[0][0]:
+            c +=1
+            if c == m:
+                return sign
+
+
     return False
+
 
 
 pygame.init()
