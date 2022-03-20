@@ -17,24 +17,37 @@ def sign_in_row_and_col(c_mas, sign):
     return False
 
 
-def sign_in_diagonal(c_mas, sign):
+def sign_in_diagonal1(c_mas, sign):
     diagonal1 = copy.deepcopy(c_mas)
     diagonal1.sort()
-    diagonal2 = copy.deepcopy(diagonal1)
+    d1 = copy.deepcopy(diagonal1)
     for i in range(len(diagonal1)):
-        diagonal1[i][0] += 1 + len(diagonal1) - i
-        diagonal1[i][1] += 1 + len(diagonal1) - i
-    for i in range(len(diagonal2)):
-        diagonal2[i][0] += 1 + len(diagonal2) - i
-        diagonal2[i][1] += 1 - len(diagonal2) + i
-    for i in range(len(diagonal1)):
-        if diagonal1.count(diagonal1[i]) >= m:
-            return sign
-    for i in range(len(diagonal2)):
-        if diagonal2.count(diagonal2[i]) >= m:
+        d1[i][0] = diagonal1[i][0] + diagonal1[i][1]
+        d1[i][1] = diagonal1[i][1] - diagonal1[i][0]
+    d1.sort()
+    for i in range(len(d1)):
+        d1[i][0] += 1 + len(d1) - i * 2
+    for j in range(len(d1)):
+        if d1.count(d1[j]) >= m:
             return sign
     return False
 
+
+def sign_in_diagonal2(c_mas, sign):
+    diagonal1 = copy.deepcopy(c_mas)
+    diagonal1.sort()
+    d2 = copy.deepcopy(diagonal1)
+    for i in range(len(diagonal1)):
+        d2[i][1] = diagonal1[i][0] + diagonal1[i][1]
+        d2[i][0] = diagonal1[i][1] - diagonal1[i][0]
+    d2.sort()
+    for i in range(len(d2)):
+        d2[i][0] += 1 + len(d2) - i * 2
+    for j in range(len(d2)):
+        if d2.count(d2[j]) >= m:
+            return sign
+
+    return False
 
 
 def check_win(mas, sign):
@@ -49,10 +62,12 @@ def check_win(mas, sign):
         return sign
     elif sign_in_row_and_col(c_mas, sign):
         return sign
-    elif sign_in_diagonal(r_mas, sign):
+    elif sign_in_diagonal1(r_mas, sign):
         return sign
-    return False
+    elif sign_in_diagonal2(r_mas, sign):
+        return sign
 
+    return False
 
 
 pygame.init()
