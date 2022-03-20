@@ -17,27 +17,24 @@ def sign_in_row_and_col(c_mas, sign):
     return False
 
 
-def sign_in_diagonal1(c_mas, sign):
+def sign_in_diagonal(c_mas, sign):
     diagonal1 = copy.deepcopy(c_mas)
     diagonal1.sort()
+    diagonal2 = copy.deepcopy(diagonal1)
     for i in range(len(diagonal1)):
         diagonal1[i][0] += 1 + len(diagonal1) - i
         diagonal1[i][1] += 1 + len(diagonal1) - i
-    for i in range(len(diagonal1)):
-        if diagonal1.count(diagonal1[i]) >= m:
-            return sign
-    return False
-
-def sign_in_diagonal2(c_mas, sign):
-    diagonal2 = copy.deepcopy(c_mas)
-    diagonal2.sort()
     for i in range(len(diagonal2)):
         diagonal2[i][0] += 1 + len(diagonal2) - i
         diagonal2[i][1] += 1 - len(diagonal2) + i
+    for i in range(len(diagonal1)):
+        if diagonal1.count(diagonal1[i]) >= m:
+            return sign
     for i in range(len(diagonal2)):
         if diagonal2.count(diagonal2[i]) >= m:
             return sign
     return False
+
 
 
 def check_win(mas, sign):
@@ -52,9 +49,7 @@ def check_win(mas, sign):
         return sign
     elif sign_in_row_and_col(c_mas, sign):
         return sign
-    elif sign_in_diagonal1(r_mas, sign):
-        return sign
-    elif sign_in_diagonal2(r_mas,sign):
+    elif sign_in_diagonal(r_mas, sign):
         return sign
     return False
 
