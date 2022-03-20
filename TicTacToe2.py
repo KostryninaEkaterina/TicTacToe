@@ -1,39 +1,61 @@
 import pygame
 import sys
+import copy
 
 n = int(input('Размер поля: '))
 m = int(input('Длина линии: '))
+
+
+def sign_in_row_and_col(c_mas, sign):
+    new_mas = copy.deepcopy(c_mas)
+    new_mas.sort()
+    for i in range(len(new_mas)):
+        new_mas[i][1] += 1 + len(new_mas) - i
+    for j in range(len(new_mas)):
+        if new_mas.count(new_mas[j]) >= m:
+            return sign
+    return False
+
+
+def sign_in_diagonal1(c_mas, sign):
+    diagonal1 = copy.deepcopy(c_mas)
+    diagonal1.sort()
+    for i in range(len(diagonal1)):
+        diagonal1[i][0] += 1 + len(diagonal1) - i
+        diagonal1[i][1] += 1 + len(diagonal1) - i
+    for i in range(len(diagonal1)):
+        if diagonal1.count(diagonal1[i]) >= m:
+            return sign
+    return False
+
+def sign_in_diagonal2(c_mas, sign):
+    diagonal2 = copy.deepcopy(c_mas)
+    diagonal2.sort()
+    for i in range(len(diagonal2)):
+        diagonal2[i][0] += 1 + len(diagonal2) - i
+        diagonal2[i][1] += 1 - len(diagonal2) + i
+    for i in range(len(diagonal2)):
+        if diagonal2.count(diagonal2[i]) >= m:
+            return sign
+    return False
+
+
 def check_win(mas, sign):
-   c_mas = []
-    c = 0
+    r_mas = []
+    c_mas = []
     for row in range(n):
         for col in range(n):
             if mas[row][col] == sign:
-                c_mas += [[row, col]]
-    for j in range(len(c_mas)):
-        for i in range(len(c_mas)):
-            if c_mas[i][0] == j:
-                c += 1
-                if c == m:
-                    return sign
-        c = 0
-    for j in range(len(c_mas)):
-        for i in range(len(c_mas)):
-            if c_mas[i][1] == j:
-                c += 1
-                if c == m:
-                    return sign
-        c = 0
-    c_mas.sort()
-    for i in range(len(c_mas)):
-         c_mas[i][0] += 1 + len(c_mas) - i
-    for i in range(len(c_mas)):
-        if c_mas[i][0] == c_mas[0][0]:
-            c +=1
-            if c == m:
-                return sign
-
-
+                r_mas += [[row, col]]
+                c_mas += [[col, row]]
+    if sign_in_row_and_col(r_mas, sign):
+        return sign
+    elif sign_in_row_and_col(c_mas, sign):
+        return sign
+    elif sign_in_diagonal1(r_mas, sign):
+        return sign
+    elif sign_in_diagonal2(r_mas,sign):
+        return sign
     return False
 
 
