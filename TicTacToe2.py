@@ -17,34 +17,32 @@ def sign_in_row_and_col(c_mas, sign):
     return False
 
 
+
 def sign_in_diagonal1(c_mas, sign):
-    diagonal1 = copy.deepcopy(c_mas)
-    diagonal1.sort()
-    d1 = copy.deepcopy(diagonal1)
-    for i in range(len(diagonal1)):
-        d1[i][0] = diagonal1[i][0] + diagonal1[i][1]
-        d1[i][1] = diagonal1[i][1] - diagonal1[i][0]
+    d1 = copy.deepcopy(c_mas)
+    for i in range(len(c_mas)):
+        d1[i][1] = c_mas[i][0] + c_mas[i][1]
+        d1[i][0] = c_mas[i][1] - c_mas[i][0]
     d1.sort()
     for i in range(len(d1)):
-        d1[i][0] += 1 + len(d1) - i * 2
+        d1[i][1] -= i * 2
     for j in range(len(d1)):
         if d1.count(d1[j]) >= m:
             return sign
+
     return False
 
 
 def sign_in_diagonal2(c_mas, sign):
-    diagonal1 = copy.deepcopy(c_mas)
-    diagonal1.sort()
-    d2 = copy.deepcopy(diagonal1)
-    for i in range(len(diagonal1)):
-        d2[i][1] = diagonal1[i][0] + diagonal1[i][1]
-        d2[i][0] = diagonal1[i][1] - diagonal1[i][0]
-    d2.sort()
-    for i in range(len(d2)):
-        d2[i][0] += 1 + len(d2) - i * 2
-    for j in range(len(d2)):
-        if d2.count(d2[j]) >= m:
+    d1 = copy.deepcopy(c_mas)
+    for i in range(len(c_mas)):
+        d1[i][0] = c_mas[i][0] + c_mas[i][1]
+        d1[i][1] = c_mas[i][1] - c_mas[i][0]
+    d1.sort()
+    for i in range(len(d1)):
+        d1[i][1] -= i * 2
+    for j in range(len(d1)):
+        if d1.count(d1[j]) >= m:
             return sign
 
     return False
