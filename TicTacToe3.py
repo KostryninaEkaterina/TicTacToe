@@ -177,7 +177,7 @@ class Game:
                 for i in range(count_players):
                     p = HumanPlayer(symbols[i], game_board)
                     self.add_player(p)
-            if a > 0:
+            if 0 < a < count_players:
                 for i in range(count_players-a):
                     p = HumanPlayer(symbols[i], game_board)
                     self.add_player(p)
