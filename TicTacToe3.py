@@ -184,19 +184,17 @@ class Game:
                 for i in range(count_players):
                     p = RandomPlayer(symbols[i], game_board)
                     self.add_player(p)
-       win = False
+      win = False
         while not win:
             for player in self.players:
                 game_board.print_board()
                 player.make_turn()
                 if game_board.is_win(player.get_symbol()):
                     print("Game over! win ", player.get_symbol())
-                    game_board.print_board()
                     win = True
-                elif game_board.is_full():
+                if game_board.is_full():
                     print("Piece")
-                    win = True
-
+                    break
 
 
 g = Game()
