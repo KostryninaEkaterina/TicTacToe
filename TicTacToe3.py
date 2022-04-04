@@ -193,7 +193,7 @@ class Game:
                     print("Game over! win ", player.get_symbol())
                     game_board.print_board()
                     win = True
-                if game_board.is_full():
+                elif game_board.is_full():
                     print("Piece")
                     win = True
 
