@@ -129,6 +129,7 @@ class RandomPlayer(Player):
 class HumanPlayer(Player):
 
     def make_turn(self):
+        print('Ход символа', self._symbol, end=' ')
         x, y = input('введите 2 числа через пробел: ').split()
         x, y = int(x), int(y)
         a = [i for i in range(self._board.size)]
