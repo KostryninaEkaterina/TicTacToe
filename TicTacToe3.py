@@ -110,7 +110,6 @@ class GameBoard(Board):
 
         return False
 
-
 class Player:
     def __init__(self, symbol, board: Board):
         self._symbol = symbol
@@ -119,20 +118,17 @@ class Player:
     def get_symbol(self):
         return self._symbol
 
-
 class RandomPlayer(Player):
     def make_turn(self):
          x, y = randint(0, self._board.size - 1), randint(0, self._board.size- 1)
          while not self._board.is_free(x, y):
              x, y = randint(0, self._board.size - 1), randint(0, self._board.size - 1)
          self._board.set_symbol(x, y, self._symbol)
-         self._board.print_board()
          print('Поставлен символ', self._symbol, ', координаты', x, y)
 
 class HumanPlayer(Player):
 
     def make_turn(self):
-        self._board.print_board()
         x, y = input('введите 2 числа через пробел: ').split()
         x, y = int(x), int(y)
         a = [i for i in range(self._board.size)]
@@ -192,6 +188,7 @@ class Game:
         while c == 0:
 
             for player in self.players:
+                game_board.print_board()
                 player.make_turn()
                 if game_board.is_win(player.get_symbol()):
                     print("Game over! win ", player.get_symbol())
