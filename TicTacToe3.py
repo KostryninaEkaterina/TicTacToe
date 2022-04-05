@@ -245,11 +245,11 @@ class Game:
                     p = HumanPlayer(symbols[i], game_board)
                     self.add_player(p)
                 for i in range(1, a+1):
-                    p = RandomPlayer(symbols[-i], game_board)
+                    p = AiPlayer(symbols[-i], game_board)
                     self.add_player(p)
             if a == count_players:
                 for i in range(count_players):
-                    p = RandomPlayer(symbols[i], game_board)
+                    p = AiPlayer(symbols[i], game_board)
                     self.add_player(p)
       win = False
         while not win:
