@@ -117,7 +117,66 @@ class Player:
 
     def get_symbol(self):
         return self._symbol
+    
+    
+class AiPlayer(Player):
+    def min_max(self, board: GameBoard, depth, is_maximum: bool) -> int:
+        if self._symbol == 'x':
+            ai_symbol = 'x'
+            human_symbol = 'o'
+        else:
+            ai_symbol = 'o'
+            human_symbol = 'x'
+        if board.is_win(ai_symbol):
+            return 5
+        if board.is_win(human_symbol):
+            return -5
+        if not board.is_win(ai_symbol) and not board.is_win(human_symbol):
+            return 0
 
+        if is_maximum:
+            best_score = - sys.maxsize
+            for i in range(self._board.size):
+                for j in range(self._board.size):
+                    if board.is_free(i, j):
+                        board.set_symbol(i, j, ai_symbol)
+                        score = self.min_max(board, depth+1, False)
+                        board.set_symbol(i, j, ' ')
+                        best_score = max(best_score, score)
+        else:
+            best_score = sys.maxsize
+            for i in range(self._board.size):
+                for j in range(self._board.size):
+                    if board.is_free(i, j):
+                        board.set_symbol(i, j, human_symbol)
+                        score = self.min_max(board, depth + 1, True)
+                        board.set_symbol(i, j, ' ')
+                        best_score = min(best_score, score)
+
+        return best_score
+
+
+    def make_turn(self):
+        if self._board.is_free(self._board.size // 2, self._board.size // 2):
+            self._board.set_symbol(self._board.size // 2, self._board.size // 2, self._symbol)
+            print('Поставлен символ', self._symbol, ', координаты', 1, 1)
+        else:
+            best_score = - sys.maxsize
+            field = copy.deepcopy(self._board)
+            for i in range(self._board.size):
+                for j in range(self._board.size):
+                    if field.is_free(i,j):
+                        field.set_symbol(i, j, self._symbol)
+                        score = self.min_max(field, 0, False)
+                        field.set_symbol(i, j, ' ')
+                        if score > best_score:
+                            best_score = score
+                            x = i
+                            y = j
+            self._board.set_symbol(x, y, self._symbol)
+            print('Поставлен символ', self._symbol, ', координаты', x, y)
+
+    
 class RandomPlayer(Player):
     def make_turn(self):
          x, y = randint(0, self._board.size - 1), randint(0, self._board.size- 1)
@@ -156,13 +215,20 @@ class Game:
         win_line_size = int(input('Длина линии: '))
         game_board = GameBoard(size, win_line_size)
         count_players = int(input('Количество игроков (от 2 до 10): '))
-        if count_players == 2:
+                if count_players == 2:
             a = input("Вы будете играть с компьютером? Введите y или n: ")
             if a == 'y':
-                p1 = HumanPlayer(symbols[0], game_board)
-                self.add_player(p1)
-                p2 = RandomPlayer(symbols[1], game_board)
-                self.add_player(p2)
+                n = input("Вы будете ходить первым? Введите y или n: ")
+                if n == 'y':
+                    p1 = HumanPlayer(symbols[0], game_board)
+                    self.add_player(p1)
+                    p2 = AiPlayer(symbols[1], game_board)
+                    self.add_player(p2)
+                else:
+                    p1 = AiPlayer(symbols[0], game_board)
+                    self.add_player(p1)
+                    p2 = HumanPlayer(symbols[1], game_board)
+                    self.add_player(p2)
             else:
                 p1 = HumanPlayer(symbols[0], game_board)
                 self.add_player(p1)
