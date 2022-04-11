@@ -157,7 +157,7 @@ class AiPlayer(Player):
 
 
     def make_turn(self):
-        if self._board.is_free(self._board.size // 2, self._board.size // 2):
+        if self._board.size == 3 and self._board.is_free(self._board.size // 2, self._board.size // 2):
             self._board.set_symbol(self._board.size // 2, self._board.size // 2, self._symbol)
             print('Поставлен символ', self._symbol, ', координаты', 1, 1)
         else:
